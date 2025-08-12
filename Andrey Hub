@@ -1,0 +1,353 @@
+local noclipEnabled = false
+local RunService = game:GetService("RunService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+ 
+-- Função para ativar/desativar noclip
+local function toggleNoclip()
+    noclipEnabled = not noclipEnabled
+end
+ 
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+ 
+local infiniteJumpEnabled = false
+ 
+-- Função para ativar/desativar
+local function toggleInfiniteJump()
+    infiniteJumpEnabled = not infiniteJumpEnabled
+end
+ 
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local player = Players.LocalPlayer
+ 
+local speedOn = false
+local speedValue = 500 -- Velocidade desejada
+ 
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+ 
+local player = Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+ 
+local flying = false
+local speed = 50
+local control = {F = 0, B = 0, L = 0, R = 0, U = 0, D = 0}
+ 
+-- Função para iniciar/parar voo
+local function toggleFly()
+    flying = not flying
+    humanoidRootPart.Anchored = false
+    if not flying then
+        local humanoid = character:FindFirstChildOfClass("Humanoid")
+        if humanoid then humanoid.PlatformStand = false end
+    end
+end
+ 
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+ 
+local player = Players.LocalPlayer
+ 
+-- Função do Instant Prompt (teleporte)
+local function instantPrompt()
+    local character = player.Character or player.CharacterAdded:Wait()
+    local root = character:FindFirstChild("HumanoidRootPart")
+    local camera = Workspace.CurrentCamera
+ 
+    if root and camera then
+        local ray = Ray.new(camera.CFrame.Position, camera.CFrame.LookVector * 1000)
+        local hit, position = Workspace:FindPartOnRay(ray, character)
+ 
+        if position then
+            root.CFrame = CFrame.new(position + Vector3.new(0, 5, 0)) -- +5 para não ficar preso no chão
+        end
+    end
+end
+ 
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+ 
+local espEnabled = false
+local espFolder = Instance.new("Folder")
+espFolder.Name = "ESP_Itens"
+espFolder.Parent = Workspace
+ 
+-- Função para criar o ESP de um item
+local function createESP(item)
+    local billboard = Instance.new("BillboardGui")
+    billboard.Size = UDim2.new(0, 200, 0, 50)
+    billboard.AlwaysOnTop = true
+    billboard.Adornee = item
+    billboard.Parent = espFolder
+ 
+    local label = Instance.new("TextLabel")
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = item.Name
+    label.TextColor3 = Color3.fromRGB(255, 255, 0) -- Amarelo
+    label.TextStrokeTransparency = 0
+    label.Font = Enum.Font.SourceSansBold
+    label.TextScaled = true
+    label.Parent = billboard
+end
+ 
+-- Ativar/Desativar ESP
+local function toggleESP()
+    espEnabled = not espEnabled
+    espFolder:ClearAllChildren()
+ 
+    if espEnabled then
+        -- Aqui você coloca a pasta onde estão os itens no seu jogo
+        local itensFolder = Workspace:FindFirstChild("Itens") -- mude para o nome real
+ 
+        if itensFolder then
+            for _, item in pairs(itensFolder:GetChildren()) do
+                if item:IsA("BasePart") or item:IsA("Model") then
+                    createESP(item:FindFirstChildWhichIsA("BasePart") or item)
+                end
+            end
+        end
+    end
+end
+ 
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local LocalPlayer = Players.LocalPlayer
+ 
+local killAuraOn = false
+local killAuraDistance = 10 -- valor inicial
+ 
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+ 
+local Window = Rayfield:CreateWindow({
+   Name = "99 Nights Andrey Hub",
+   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
+   LoadingTitle = "Andrey Hub",
+   LoadingSubtitle = "Created by Andreyjr0250",
+   ShowText = "99 Nights Andrey Hub", -- for mobile users to unhide rayfield, change if you'd like
+   Theme = "Green", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+ 
+   ToggleUIKeybind = "K", -- The keybind to toggle the UI visibility (string like "K" or Enum.KeyCode)
+ 
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+ 
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil, -- Create a custom folder for your hub/game
+      FileName = "99 Nights Andrey Hub"
+   },
+ 
+   Discord = {
+      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
+      Invite = "jTyBnDKp", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   },
+ 
+   KeySystem = false, -- Set this to true to use our key system
+   KeySettings = {
+      Title = "Untitled",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
+      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
+      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
+      Key = {"Hello"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+   }
+})
+ 
+local infotab = Window:CreateTab("InfoTab", 4483362458) -- Title, Image
+ 
+local maintab = Window:CreateTab("MainTab", 4483362458) -- Title, Image
+ 
+local esptab = Window:CreateTab("EspTab", 4483362458) -- Title, Image
+ 
+local gametab = Window:CreateTab("GameTab", 4483362458) -- Title, Image
+ 
+ 
+local Andrey Hub = infotab:CreateInput({
+   Name = "Andrey Hub",
+   CurrentValue = "",
+   PlaceholderText = "Create by Andreyjr0250, Enter Discord For Updates - Discord: /jTyBnDKp",
+   RemoveTextAfterFocusLost = false,
+   Flag = "Input1",
+   Callback = function(Text)
+   -- The function that takes place when the input is changed
+   -- The variable (Text) is a string for the value in the text box
+   end,
+})
+ 
+local Noclip = maintab:CreateButton({
+    Name = "Noclip",
+    Callback = toggleNoclip
+})
+ 
+RunService.Stepped:Connect(function()
+    if noclipEnabled then
+        local character = player.Character
+        if character then
+            for _, part in ipairs(character:GetDescendants()) do
+                if part:IsA("BasePart") and part.CanCollide == true then
+                    part.CanCollide = false
+                end
+            end
+        end
+    end
+end)
+ 
+local Button = maintab:CreateButton({
+    Name = "Infinite Jump",
+    Callback = toggleInfiniteJump
+})
+ 
+-- Detectar tecla de pulo
+UserInputService.JumpRequest:Connect(function()
+    if infiniteJumpEnabled then
+        local character = player.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+            end
+        end
+    end
+end)
+ 
+local Toggle = maintab:CreateToggle({
+    Name = "Player Speed Beta",
+    CurrentValue = false,
+    Flag = "Toggle1",
+    Callback = function(Value)
+        speedOn = Value
+        if not speedOn then
+            -- Volta ao valor padrão quando desligar
+            local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = 16
+            end
+        end
+    end,
+})
+ 
+-- Loop para aplicar speed enquanto estiver ligado
+RunService.Heartbeat:Connect(function()
+    if speedOn then
+        local humanoid = player.Character and player.Character:FindFirstChildOfClass("Humanoid")
+        if humanoid then
+            humanoid.WalkSpeed = speedValue
+        end
+    end
+end)
+ 
+local Button = maintab:CreateButton({
+    Name = "Fly Beta",
+    Callback = toggleFly
+})
+ 
+-- Controles PC/Android
+UserInputService.InputBegan:Connect(function(input, processed)
+    if processed then return end
+    if input.KeyCode == Enum.KeyCode.W then control.F = 1 end
+    if input.KeyCode == Enum.KeyCode.S then control.B = 1 end
+    if input.KeyCode == Enum.KeyCode.A then control.L = 1 end
+    if input.KeyCode == Enum.KeyCode.D then control.R = 1 end
+    if input.KeyCode == Enum.KeyCode.Space then control.U = 1 end
+    if input.KeyCode == Enum.KeyCode.LeftShift then control.D = 1 end
+end)
+ 
+UserInputService.InputEnded:Connect(function(input)
+    if input.KeyCode == Enum.KeyCode.W then control.F = 0 end
+    if input.KeyCode == Enum.KeyCode.S then control.B = 0 end
+    if input.KeyCode == Enum.KeyCode.A then control.L = 0 end
+    if input.KeyCode == Enum.KeyCode.D then control.R = 0 end
+    if input.KeyCode == Enum.KeyCode.Space then control.U = 0 end
+    if input.KeyCode == Enum.KeyCode.LeftShift then control.D = 0 end
+end)
+ 
+-- Loop do voo
+RunService.Heartbeat:Connect(function(deltaTime)
+    if flying then
+        local move = Vector3.new((control.R - control.L), (control.U - control.D), (control.B - control.F))
+        if move.Magnitude > 0 then
+            humanoidRootPart.Velocity = move.Unit * speed
+        else
+            humanoidRootPart.Velocity = Vector3.new(0, 0, 0)
+        end
+    end
+end)
+ 
+local Button = esptab:CreateButton({
+    Name = "Esp Itens",
+    Callback = toggleESP
+})
+ 
+local Toggle = gametab:CreateToggle({
+    Name = " Distance for Kill Aura",
+    CurrentValue = false,
+    Flag = "KillAuraToggle",
+    Callback = function(Value)
+        killAuraOn = Value
+    end,
+})
+ 
+-- Slider de distância
+local Slider = Tab:CreateSlider({
+    Name = "Distance for Kill Aura",
+    Range = {5, 50}, -- mínimo e máximo
+    Increment = 1,
+    Suffix = "Studs",
+    CurrentValue = killAuraDistance,
+    Flag = "KillAuraDistance",
+    Callback = function(Value)
+        killAuraDistance = Value
+    end,
+})
+ 
+-- Função para causar dano
+local function damagePlayer(target)
+    local humanoid = target:FindFirstChildOfClass("Humanoid")
+    if humanoid then
+        humanoid.Health = 0 -- Mata instantaneamente (local)
+        -- ⚠️ Se o servidor não permitir, isso pode não funcionar.
+        -- Aqui você colocaria o RemoteEvent de ataque se for necessário.
+    end
+end
+ 
+-- Loop do Kill Aura
+RunService.Heartbeat:Connect(function()
+    if killAuraOn then
+        local myChar = LocalPlayer.Character
+        if myChar and myChar:FindFirstChild("HumanoidRootPart") then
+            local myPos = myChar.HumanoidRootPart.Position
+            for _, player in pairs(Players:GetPlayers()) do
+                if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                    local dist = (player.Character.HumanoidRootPart.Position - myPos).Magnitude
+                    if dist <= killAuraDistance then
+                        damagePlayer(player.Character)
+                    end
+                end
+            end
+        end
+    end
+end)
+ 
+local Button = gametab:CreateButton({
+    Name = "Kill Aura",
+    Callback = function()
+        -- Alterna o estado
+        killAuraOn = not killAuraOn
+ 
+        if killAuraOn then
+            print("Kill Aura ativado!")
+        else
+            print("Kill Aura desativado!")
+        end
+    end,
+})
+ 
